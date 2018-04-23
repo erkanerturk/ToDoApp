@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">Benim Listem</string>
+    <string name="date">Tarih</string>
+    <string name="day">Gün</string>
+    <string name="title">Başlık</string>
+    <string name="category">Kategori</string>
+    <string name="add">Ekle</string>
+    <string name="text">Metin</string>
+</resources>
