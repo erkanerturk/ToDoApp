@@ -31,7 +31,7 @@
             android:textSize="17dp" />
 
         <ImageView
-            android:id="@+id/imageView2"
+            android:id="@+id/toDoStageImageView"
             android:layout_width="40dp"
             android:layout_height="35dp"
             android:layout_weight="1"

@@ -6,4 +6,6 @@
     <string name="category">Kategori</string>
     <string name="add">Ekle</string>
     <string name="text">Metin</string>
+    <string name="email">E-Posta</string>
+    <string name="password">Şifre</string>
 </resources>

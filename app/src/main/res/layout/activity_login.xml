@@ -8,46 +8,82 @@
     tools:layout_editor_absoluteY="81dp">
 
     <EditText
-        android:id="@+id/editTextEmail"
+        android:id="@+id/emailEditText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="80dp"
+        android:layout_marginBottom="32dp"
+        android:layout_marginTop="88dp"
         android:ems="10"
+        android:hint="@string/email"
         android:inputType="textEmailAddress"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
+        android:text="erkan@pm.com"
+        app:layout_constraintBottom_toTopOf="@+id/eyeImageView"
+        app:layout_constraintStart_toStartOf="@+id/passwordEditText"
         app:layout_constraintTop_toTopOf="parent" />
 
     <EditText
-        android:id="@+id/editTextPassword"
+        android:id="@+id/passwordEditText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
+        android:layout_marginEnd="13dp"
+        android:layout_marginStart="87dp"
+        android:layout_marginTop="23dp"
         android:ems="10"
+        android:hint="@string/password"
         android:inputType="textPassword"
-        app:layout_constraintStart_toStartOf="@+id/editTextEmail"
-        app:layout_constraintTop_toBottomOf="@+id/editTextEmail" />
+        android:text="123456"
+        app:layout_constraintEnd_toStartOf="@+id/eyeImageView"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/emailEditText" />
 
-    <Button
-        android:id="@+id/btnLogin"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="18dp"
-        android:layout_marginStart="6dp"
-        android:text="Giriş Yap"
-        app:layout_constraintBaseline_toBaselineOf="@+id/btnSingUp"
-        app:layout_constraintEnd_toStartOf="@+id/btnSingUp"
-        app:layout_constraintHorizontal_chainStyle="packed"
-        app:layout_constraintStart_toStartOf="parent" />
-
-    <Button
-        android:id="@+id/btnSingUp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
-        android:text="Kayıt Ol"
+    <ImageView
+        android:id="@+id/eyeImageView"
+        style="Widget.AppCompat.Light.ActionButton"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginBottom="43dp"
+        android:layout_marginEnd="45dp"
+        android:onClick="showOrHidePassword"
+        android:src="@drawable/ic_remove_red_eye_black_24dp"
+        app:layout_constraintBottom_toTopOf="@+id/singInButton"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/btnLogin"
-        app:layout_constraintTop_toBottomOf="@+id/editTextPassword" />
+        app:layout_constraintStart_toEndOf="@+id/passwordEditText"
+        app:layout_constraintTop_toBottomOf="@+id/emailEditText" />
+
+    <Button
+        android:id="@+id/singInButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="28dp"
+        android:layout_marginEnd="18dp"
+        android:layout_marginStart="7dp"
+        android:onClick="singIn"
+        android:text="Giriş Yap"
+        app:layout_constraintBottom_toTopOf="@+id/progressBar"
+        app:layout_constraintEnd_toStartOf="@+id/singUpButton"
+        app:layout_constraintHorizontal_chainStyle="packed"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/eyeImageView" />
+
+    <Button
+        android:id="@+id/singUpButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:onClick="singUp"
+        android:text="Kayıt Ol"
+        app:layout_constraintBaseline_toBaselineOf="@+id/singInButton"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/singInButton" />
+
+    <ProgressBar
+        android:id="@+id/progressBar"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="154dp"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/singInButton" />
 
 </android.support.constraint.ConstraintLayout>

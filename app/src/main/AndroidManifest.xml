@@ -13,6 +13,15 @@
         android:theme="@style/AppTheme">
         <activity
             android:name=".MainActivity"
+            android:theme="@style/AppTheme.NoTitle" />
+        <activity
+            android:name=".AddToDo"
+            android:theme="@style/AppTheme.NoTitle" />
+        <activity
+            android:name=".SingleToDo"
+            android:theme="@style/AppTheme.NoTitle" />
+        <activity
+            android:name=".LoginActivity"
             android:theme="@style/AppTheme.NoTitle">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -20,9 +29,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".AddToDo" />
-        <activity android:name=".SingleToDo" />
-        <activity android:name=".LoginActivity"></activity>
     </application>
 
 </manifest>

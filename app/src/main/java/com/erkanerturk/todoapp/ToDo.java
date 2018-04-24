@@ -1,13 +1,17 @@
 package com.erkanerturk.todoapp;
 
+import com.google.firebase.database.IgnoreExtraProperties;
+
 /**
  * Created by erkanerturk on 21.04.2018.
  */
 
+@IgnoreExtraProperties
 public class ToDo {
     private String name;
     private String date;
     private String time;
+    private String timestamp;
 
     public ToDo() {
 
@@ -40,5 +44,13 @@ public class ToDo {
 
     public void setDate(String date) {
         this.date = date;
+    }
+
+    public String getTimestamp() {
+        return timestamp;
+    }
+
+    public void setTimestamp(String timestamp) {
+        this.timestamp = timestamp;
     }
 }
