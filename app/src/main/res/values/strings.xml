@@ -1,6 +1,6 @@
 <resources>
     <string name="app_name">Benim Listem</string>
-    <string name="date">Tarih</string>
+    <string name="time">Saat</string>
     <string name="day">Gün</string>
     <string name="title">Başlık</string>
     <string name="category">Kategori</string>
@@ -8,4 +8,13 @@
     <string name="text">Metin</string>
     <string name="email">E-Posta</string>
     <string name="password">Şifre</string>
+    <string name="removed">Silindi</string>
+    <string name="failRemoved">Silme Başarısız</string>
+    <string name="update">Güncellendi</string>
+    <string name="failUpdate">Güncelleme Başarısız</string>
+    <string name="added">Eklendi</string>
+    <string name="navigationEmail">android.studio@android.com</string>
+    <string name="navigationName">Android Studio</string>
+    <string name="pick_date">Tarih Seç</string>
+    <string name="pick_time">Saat Seç</string>
 </resources>

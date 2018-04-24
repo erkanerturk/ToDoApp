@@ -40,15 +40,18 @@
                 android:textColor="#FFFFFF"
                 android:textSize="40dp" />
 
-            <TextView
+            <TextClock
                 android:id="@+id/bannerDateTextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/bannerDayTextView"
-                android:layout_marginLeft="20dp"
+                android:layout_marginLeft="25dp"
                 android:layout_marginTop="3dp"
-                android:text="@string/date"
+                android:textSize="15dp"
+                android:format24Hour="hh:mm:ss"
+                android:text="@string/time"
                 android:textColor="#FFFFFF" />
+
 
             <android.support.design.widget.FloatingActionButton
                 android:id="@+id/floatingActionButton"

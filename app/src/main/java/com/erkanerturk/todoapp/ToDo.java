@@ -8,8 +8,10 @@ import com.google.firebase.database.IgnoreExtraProperties;
 
 @IgnoreExtraProperties
 public class ToDo {
-    private String name;
-    private String date;
+
+    private String title;
+    private String info;
+    private boolean status;
     private String time;
     private String timestamp;
 
@@ -17,17 +19,36 @@ public class ToDo {
 
     }
 
-    public ToDo(String name, String time) {
-        this.name = name;
+    public ToDo(String title, String info, boolean status, String time, String timestamp) {
+        this.title = title;
+        this.info = info;
+        this.status = status;
         this.time = time;
+        this.timestamp = timestamp;
     }
 
-    public String getName() {
-        return name;
+    public String getTitle() {
+        return title;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public String getInfo() {
+        return info;
+    }
+
+    public void setInfo(String info) {
+        this.info = info;
+    }
+
+    public boolean isStatus() {
+        return status;
+    }
+
+    public void setStatus(boolean status) {
+        this.status = status;
     }
 
     public String getTime() {
@@ -36,14 +57,6 @@ public class ToDo {
 
     public void setTime(String time) {
         this.time = time;
-    }
-
-    public String getDate() {
-        return date;
-    }
-
-    public void setDate(String date) {
-        this.date = date;
     }
 
     public String getTimestamp() {

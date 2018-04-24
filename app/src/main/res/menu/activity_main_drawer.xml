@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:showIn="navigation_view">
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_personal"
+            android:title="Kişisel" />
+        <item
+            android:id="@+id/nav_sport"
+            android:title="Spor" />
+        <item
+            android:id="@+id/nav_health"
+            android:title="Sağlık" />
+        <item
+            android:id="@+id/nav_software"
+            android:title="Yazılım" />
+        <item
+            android:id="@+id/nav_other"
+            android:title="Diğer" />
+    </group>
+
+    <item android:title="Kullanıcı İşlemleri">
+        <menu>
+            <item
+                android:id="@+id/nav_info"
+                android:title="Kullanıcı Bilgilerini Değiştir" />
+            <item
+                android:id="@+id/nav_signout"
+                android:title="Çıkış" />
+        </menu>
+    </item>
+
+</menu>

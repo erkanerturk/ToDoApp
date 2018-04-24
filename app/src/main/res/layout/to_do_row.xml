@@ -13,26 +13,27 @@
 
         <TextView
             android:id="@+id/toDoTimeTextView"
-            android:layout_width="15dp"
+            android:layout_width="75dp"
             android:layout_height="20dp"
-            android:layout_marginLeft="40dp"
+            android:layout_marginLeft="10dp"
             android:layout_marginTop="10dp"
             android:layout_weight="1"
-            android:text="@string/date"
+            android:text="@string/time"
             android:textSize="17dp" />
 
         <TextView
             android:id="@+id/toDoNameTextView"
-            android:layout_width="100dp"
-            android:layout_height="35dp"
+            android:layout_width="120dp"
+            android:layout_height="25dp"
             android:layout_marginTop="10dp"
+            android:layout_marginLeft="20dp"
             android:layout_weight="1"
             android:text="@string/title"
             android:textSize="17dp" />
 
         <ImageView
             android:id="@+id/toDoStageImageView"
-            android:layout_width="40dp"
+            android:layout_width="25dp"
             android:layout_height="35dp"
             android:layout_weight="1"
             app:srcCompat="@drawable/ic_done" />
