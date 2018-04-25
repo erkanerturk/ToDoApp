@@ -23,8 +23,11 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -34,7 +37,7 @@ public class MainActivity extends AppCompatActivity {
 
     private RecyclerView mTaskRecyclerView;
     private DatabaseReference mFirebaseDatabaseReference;
-    private FirebaseRecyclerAdapter<ToDo, TaskViewHolder> mFirebaseAdapter;
+    private FirebaseRecyclerAdapter<ToDo, ToDoViewHolder> mFirebaseAdapter;
     private FirebaseUser mFirebaseUser;
     private FirebaseAuth mFirebaseAuth;
     private FirebaseAuth.AuthStateListener authStateListener;
@@ -69,7 +72,14 @@ public class MainActivity extends AppCompatActivity {
         mFirebaseDatabaseReference = FirebaseDatabase.getInstance().getReference();
         mFirebaseAuth = FirebaseAuth.getInstance();
         mFirebaseUser = FirebaseAuth.getInstance().getCurrentUser();
-        uid = mFirebaseUser.getUid();
+
+        if (mFirebaseUser != null) {
+            uid = mFirebaseUser.getUid();
+        } else {
+            Toast.makeText(getApplicationContext(), "Kullanıcı girişi doğrulanamadı", Toast.LENGTH_LONG).show();
+            goLoginActivity();
+        }
+
 
         authStateListener = new FirebaseAuth.AuthStateListener() {
             @Override
@@ -78,9 +88,7 @@ public class MainActivity extends AppCompatActivity {
                 if (mFirebaseAuth.getCurrentUser() != null) {
 
                 } else {
-                    Intent intent = new Intent(MainActivity.this, LoginActivity.class);
-                    startActivity(intent);
-                    finish();
+                    goLoginActivity();
                 }
             }
         };
@@ -92,19 +100,16 @@ public class MainActivity extends AppCompatActivity {
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 int id = item.getItemId();
 
-                if (id != (R.id.nav_info | R.id.nav_signout)) {
+                if (id != R.id.nav_info && id != R.id.nav_signout) {
                     mcategoryTextView.setText(item.getTitle());
                     selectedCategoryName = item.getTitle().toString();
                     startFirebaseAdapter();
-                }
 
-                if (id == R.id.nav_info) {
+                } else if (id == R.id.nav_info) {
 
                 } else if (id == R.id.nav_signout) {
                     mFirebaseAuth.signOut();
-                    Intent intent = new Intent(MainActivity.this, LoginActivity.class);
-                    startActivity(intent);
-                    finish();
+                    goLoginActivity();
                 }
 
                 DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawerLayout);
@@ -114,12 +119,12 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    public static class TaskViewHolder extends RecyclerView.ViewHolder {
+    public static class ToDoViewHolder extends RecyclerView.ViewHolder {
         TextView mToDoTitle;
         TextView mToDoTime;
         ImageView mToDoStatus;
 
-        public TaskViewHolder(View itemView) {
+        public ToDoViewHolder(View itemView) {
             super(itemView);
 
             mToDoTitle = (TextView) itemView.findViewById(R.id.toDoNameTextView);
@@ -127,20 +132,17 @@ public class MainActivity extends AppCompatActivity {
             mToDoStatus = (ImageView) itemView.findViewById(R.id.toDoStageImageView);
         }
 
-        public void bindTask(ToDo toDo) {
-/*            Picasso.with(mContext)
-                    .load(restaurant.getImageUrl())
-                    .resize(MAX_WIDTH, MAX_HEIGHT)
-                    .centerCrop()
-                    .into(restaurantImageView);
-*/
+        public void bindToDo(ToDo toDo) {
+
             mToDoTitle.setText(toDo.getTitle());
             mToDoTime.setText(toDo.getTimestamp());
 
-            if (toDo.isStatus() == true) {
-                mToDoStatus.setVisibility(View.VISIBLE);
+            if (toDo.isStatus()) {
+                //mToDoStatus.setVisibility(View.VISIBLE);
+                mToDoStatus.setImageResource(R.drawable.ic_checked);
             } else {
-                mToDoStatus.setVisibility(View.INVISIBLE);
+                //mToDoStatus.setVisibility(View.INVISIBLE);
+                mToDoStatus.setImageResource(R.drawable.ic_no_checked);
             }
         }
     }
@@ -170,17 +172,23 @@ public class MainActivity extends AppCompatActivity {
         startItemTouchHelper();
     }
 
+    public void goLoginActivity() {
+        Intent intent = new Intent(MainActivity.this, LoginActivity.class);
+        startActivity(intent);
+        finish();
+    }
+
     public void startFirebaseAdapter() {
-        mFirebaseAdapter = new FirebaseRecyclerAdapter<ToDo, TaskViewHolder>(
+        mFirebaseAdapter = new FirebaseRecyclerAdapter<ToDo, ToDoViewHolder>(
                 ToDo.class,
                 R.layout.to_do_row,
-                TaskViewHolder.class,
+                ToDoViewHolder.class,
                 mFirebaseDatabaseReference.child("users").child(uid).child("category").child(selectedCategoryName).orderByChild("timestamp")
         ) {
             @Override
-            protected void populateViewHolder(final TaskViewHolder viewHolder, ToDo model, final int position) {
+            protected void populateViewHolder(final ToDoViewHolder viewHolder, ToDo model, final int position) {
                 final String TO_DO_KEY = getRef(position).getKey();
-                viewHolder.bindTask(model);
+                viewHolder.bindToDo(model);
 
                 viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -207,7 +215,7 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction) {
-                int position = viewHolder.getAdapterPosition();
+                final int position = viewHolder.getAdapterPosition();
 
                 if (direction == ItemTouchHelper.RIGHT) {
                     mFirebaseAdapter.getRef(position).removeValue().addOnSuccessListener(new OnSuccessListener<Void>() {
@@ -222,18 +230,16 @@ public class MainActivity extends AppCompatActivity {
                         }
                     });
                 } else {
-                    HashMap<String, Object> newEditionTimeHM = new HashMap<String, Object>();
-                    newEditionTimeHM.put("status", true);
-                    mFirebaseAdapter.getRef(position).updateChildren(newEditionTimeHM)
-                            .addOnSuccessListener(new OnSuccessListener<Void>() {
-                                @Override
-                                public void onSuccess(Void aVoid) {
-                                    Toast.makeText(getApplicationContext(), R.string.update, Toast.LENGTH_SHORT).show();
-                                }
-                            }).addOnFailureListener(new OnFailureListener() {
+                    mFirebaseAdapter.getRef(position).addListenerForSingleValueEvent(new ValueEventListener() {
                         @Override
-                        public void onFailure(@NonNull Exception e) {
-                            Toast.makeText(getApplicationContext(), R.string.failUpdate, Toast.LENGTH_SHORT).show();
+                        public void onDataChange(DataSnapshot dataSnapshot) {
+                            Boolean status = dataSnapshot.child("status").getValue(Boolean.class);
+                            updateStatus(position, status);
+                        }
+
+                        @Override
+                        public void onCancelled(DatabaseError databaseError) {
+
                         }
                     });
                 }
@@ -241,5 +247,28 @@ public class MainActivity extends AppCompatActivity {
                 mFirebaseAdapter.notifyDataSetChanged();
             }
         }).attachToRecyclerView(mTaskRecyclerView);
+    }
+
+    public void updateStatus(int position, boolean status) {
+        HashMap<String, Object> newStatus = new HashMap<String, Object>();
+
+        if (status) {
+            newStatus.put("status", false);
+        } else {
+            newStatus.put("status", true);
+        }
+
+        mFirebaseAdapter.getRef(position).updateChildren(newStatus)
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        Toast.makeText(getApplicationContext(), R.string.update, Toast.LENGTH_SHORT).show();
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Toast.makeText(getApplicationContext(), R.string.failUpdate, Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 }

@@ -43,6 +43,5 @@ public class LoginActivity extends AppCompatActivity {
                             .setAvailableProviders(providers).build(), RC_SIGN_IN
             );
         }
-
     }
 }

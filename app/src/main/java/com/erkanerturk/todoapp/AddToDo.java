@@ -5,9 +5,11 @@ import android.app.TimePickerDialog;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
@@ -25,10 +27,11 @@ public class AddToDo extends AppCompatActivity {
     private EditText mToDoTitleTextView, mToDoInfoTextView;
     private FirebaseUser mFirebaseUser;
     private String uid;
-    Button mDateTimePickerButton;
-    Calendar myCalendar;
-    DatePickerDialog.OnDateSetListener mDateListener;
-    TimePickerDialog.OnTimeSetListener mTimeListener;
+    private Button mDateTimePickerButton;
+    private Spinner mCategorySpinner;
+    private Calendar myCalendar;
+    private DatePickerDialog.OnDateSetListener mDateListener;
+    private TimePickerDialog.OnTimeSetListener mTimeListener;
 
 
     @Override
@@ -40,6 +43,11 @@ public class AddToDo extends AppCompatActivity {
         mToDoTitleTextView = (EditText) findViewById(R.id.addToDoTitleTextView);
         mToDoInfoTextView = (EditText) findViewById(R.id.addToDoInfoTextView);
         mDateTimePickerButton = (Button) findViewById(R.id.dateTimePickerButton);
+        mCategorySpinner = (Spinner) findViewById(R.id.categorySpinner);
+
+        String[] categorys = {"Kişisel", "Spor", "Sağlık", "Yazılım", "Diğer"};
+        final ArrayAdapter<String> spinnerAdapter = new ArrayAdapter<String>(getApplicationContext(), R.layout.support_simple_spinner_dropdown_item, categorys);
+        mCategorySpinner.setAdapter(spinnerAdapter);
 
 
         mDateListener = new DatePickerDialog.OnDateSetListener() {
@@ -86,13 +94,14 @@ public class AddToDo extends AppCompatActivity {
             String timestampString = sdf.format(myCalendar.getTime());
             String timeString = sdf2.format(myCalendar.getTime());
 
-            mFirebaseDatabaseReference = FirebaseDatabase.getInstance().getReference().child("users").child(uid).child("category").child("Yazılım");
+            mFirebaseDatabaseReference = FirebaseDatabase.getInstance().getReference().child("users").child(uid).child("category").child(mCategorySpinner.getSelectedItem().toString());
             DatabaseReference newTask = mFirebaseDatabaseReference.push();
             newTask.child("title").setValue(title);
             newTask.child("info").setValue(info);
             newTask.child("status").setValue(false);
             newTask.child("time").setValue(timeString);
             newTask.child("timestamp").setValue(timestampString);
+
 
             Toast.makeText(getApplicationContext(), "Eklendi", Toast.LENGTH_LONG).show();
 
@@ -110,7 +119,7 @@ public class AddToDo extends AppCompatActivity {
 
         DatePickerDialog datePickerDialog = new DatePickerDialog(AddToDo.this, mDateListener, myCalendar.get(Calendar.YEAR),
                 myCalendar.get(Calendar.MONTH), myCalendar.get(Calendar.DAY_OF_MONTH));
-        datePickerDialog.getDatePicker().setMinDate(System.currentTimeMillis() -1000);
+        datePickerDialog.getDatePicker().setMinDate(System.currentTimeMillis() - 1000);
         datePickerDialog.show();
     }
 

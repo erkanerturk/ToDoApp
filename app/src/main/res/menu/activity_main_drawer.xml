@@ -6,18 +6,23 @@
     <group android:checkableBehavior="single">
         <item
             android:id="@+id/nav_personal"
+            android:icon="@drawable/ic_personal"
             android:title="Kişisel" />
         <item
             android:id="@+id/nav_sport"
+            android:icon="@drawable/ic_sports"
             android:title="Spor" />
         <item
             android:id="@+id/nav_health"
+            android:icon="@drawable/ic_health"
             android:title="Sağlık" />
         <item
             android:id="@+id/nav_software"
+            android:icon="@drawable/ic_software"
             android:title="Yazılım" />
         <item
             android:id="@+id/nav_other"
+            android:icon="@drawable/ic_other"
             android:title="Diğer" />
     </group>
 
