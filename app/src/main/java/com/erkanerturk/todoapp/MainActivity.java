@@ -121,21 +121,21 @@ public class MainActivity extends AppCompatActivity {
 
     public static class ToDoViewHolder extends RecyclerView.ViewHolder {
         TextView mToDoTitle;
-        TextView mToDoTime;
+        TextView mToDoDateTime;
         ImageView mToDoStatus;
 
         public ToDoViewHolder(View itemView) {
             super(itemView);
 
             mToDoTitle = (TextView) itemView.findViewById(R.id.toDoNameTextView);
-            mToDoTime = (TextView) itemView.findViewById(R.id.toDoTimeTextView);
+            mToDoDateTime = (TextView) itemView.findViewById(R.id.toDoDateTimeTextView);
             mToDoStatus = (ImageView) itemView.findViewById(R.id.toDoStageImageView);
         }
 
         public void bindToDo(ToDo toDo) {
 
             mToDoTitle.setText(toDo.getTitle());
-            mToDoTime.setText(toDo.getTimestamp());
+            mToDoDateTime.setText(toDo.getTimestamp());
 
             if (toDo.isStatus()) {
                 //mToDoStatus.setVisibility(View.VISIBLE);
@@ -186,7 +186,7 @@ public class MainActivity extends AppCompatActivity {
                 mFirebaseDatabaseReference.child("users").child(uid).child("category").child(selectedCategoryName).orderByChild("timestamp")
         ) {
             @Override
-            protected void populateViewHolder(final ToDoViewHolder viewHolder, ToDo model, final int position) {
+            protected void populateViewHolder(final ToDoViewHolder viewHolder, final ToDo model, final int position) {
                 final String TO_DO_KEY = getRef(position).getKey();
                 viewHolder.bindToDo(model);
 
@@ -195,7 +195,8 @@ public class MainActivity extends AppCompatActivity {
                     public void onClick(View v) {
 
                         Intent intent = new Intent(MainActivity.this, SingleToDo.class);
-                        intent.putExtra("ToDoKey", TO_DO_KEY);
+                        intent.putExtra("toDoKey", TO_DO_KEY);
+                        intent.putExtra("categoryName",selectedCategoryName);
                         startActivity(intent);
                     }
                 });

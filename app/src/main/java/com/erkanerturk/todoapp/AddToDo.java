@@ -90,16 +90,13 @@ public class AddToDo extends AppCompatActivity {
             String info = mToDoInfoTextView.getText().toString().trim();
 
             SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yy - HH:mm");
-            SimpleDateFormat sdf2 = new SimpleDateFormat("HH:mm");
             String timestampString = sdf.format(myCalendar.getTime());
-            String timeString = sdf2.format(myCalendar.getTime());
 
             mFirebaseDatabaseReference = FirebaseDatabase.getInstance().getReference().child("users").child(uid).child("category").child(mCategorySpinner.getSelectedItem().toString());
             DatabaseReference newTask = mFirebaseDatabaseReference.push();
             newTask.child("title").setValue(title);
             newTask.child("info").setValue(info);
             newTask.child("status").setValue(false);
-            newTask.child("time").setValue(timeString);
             newTask.child("timestamp").setValue(timestampString);
 
 

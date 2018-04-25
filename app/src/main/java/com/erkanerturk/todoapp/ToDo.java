@@ -12,18 +12,16 @@ public class ToDo {
     private String title;
     private String info;
     private boolean status;
-    private String time;
     private String timestamp;
 
     public ToDo() {
 
     }
 
-    public ToDo(String title, String info, boolean status, String time, String timestamp) {
+    public ToDo(String title, String info, boolean status, String timestamp) {
         this.title = title;
         this.info = info;
         this.status = status;
-        this.time = time;
         this.timestamp = timestamp;
     }
 
@@ -49,14 +47,6 @@ public class ToDo {
 
     public void setStatus(boolean status) {
         this.status = status;
-    }
-
-    public String getTime() {
-        return time;
-    }
-
-    public void setTime(String time) {
-        this.time = time;
     }
 
     public String getTimestamp() {
