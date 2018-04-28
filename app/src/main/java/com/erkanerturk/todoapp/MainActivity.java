@@ -54,7 +54,7 @@ public class MainActivity extends AppCompatActivity {
 
         this.setContentView(R.layout.activity_main);
 
-        FloatingActionButton fabButton = (FloatingActionButton) findViewById(R.id.floatingActionButton);
+        final FloatingActionButton fabButton = (FloatingActionButton) findViewById(R.id.floatingActionButton);
         fabButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -217,11 +217,13 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public void onClick(View v) {
 
-                        Intent intent = new Intent(MainActivity.this, SingleToDo.class);
-                        intent.putExtra("toDoKey", TO_DO_KEY);
-                        intent.putExtra("categoryName", selectedCategoryName);
-                        startActivity(intent);
-                        overridePendingTransition(R.anim.anim_in, R.anim.anim_out);
+                        if (!TO_DO_KEY.equals("") && TO_DO_KEY != null) {
+                            Intent intent = new Intent(MainActivity.this, SingleToDo.class);
+                            intent.putExtra("toDoKey", TO_DO_KEY);
+                            intent.putExtra("categoryName", selectedCategoryName);
+                            startActivity(intent);
+                            overridePendingTransition(R.anim.anim_in, R.anim.anim_out);
+                        }
                     }
                 });
             }

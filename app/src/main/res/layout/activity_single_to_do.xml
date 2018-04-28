@@ -13,18 +13,22 @@
         android:orientation="vertical">
 
         <android.support.v7.widget.CardView
+            android:id="@+id/singleToDoTitleCardView"
             android:layout_width="match_parent"
             android:layout_height="100dp"
             android:layout_margin="20dp"
             android:layout_marginTop="40dp"
-            android:id="@+id/singleToDoTitleCardView"
+            android:clickable="true"
+            android:foreground="?android:attr/selectableItemBackground"
             app:cardCornerRadius="10dp">
 
             <TextView
                 android:id="@+id/singleToDoTitleTextView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_gravity="center"
                 android:layout_margin="20dp"
+                android:padding="10dp"
                 android:text="@string/title"
                 android:textColor="#000000"
                 android:textSize="20dp" />
@@ -33,20 +37,25 @@
         </android.support.v7.widget.CardView>
 
         <android.support.v7.widget.CardView
+            android:id="@+id/singleToDoInfoCardView"
             android:layout_width="match_parent"
             android:layout_height="180dp"
             android:layout_margin="20dp"
             android:layout_marginTop="40dp"
-            android:id="@+id/singleToDoInfoCardView"
+            android:clickable="true"
+            android:foreground="?android:attr/selectableItemBackground"
             app:cardCornerRadius="10dp">
 
             <TextView
                 android:id="@+id/singleToDoInfoTextView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_gravity="center"
                 android:layout_margin="20dp"
+                android:padding="5dp"
                 android:text="@string/info"
-                android:textColor="#000000" />
+                android:textColor="#000000"
+                android:textSize="15dp" />
 
         </android.support.v7.widget.CardView>
 
@@ -55,16 +64,15 @@
             android:layout_height="100dp"
             android:layout_margin="20dp"
             android:layout_marginTop="40dp"
-            app:cardCornerRadius="10dp"
-            >
+            app:cardCornerRadius="10dp">
 
             <TextView
                 android:id="@+id/singleToDoTimeTextView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="30dp"
-                android:text="@string/time"
-                android:layout_marginTop="20dp"/>
+                android:layout_marginTop="20dp"
+                android:text="@string/time" />
 
             <TextView
                 android:id="@+id/singleToDoStatusTextView"

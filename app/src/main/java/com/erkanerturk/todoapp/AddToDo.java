@@ -6,10 +6,10 @@ import android.app.TimePickerDialog;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
+import android.text.method.ScrollingMovementMethod;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Spinner;
@@ -28,11 +28,10 @@ import java.util.Calendar;
 
 public class AddToDo extends AppCompatActivity {
 
-    private DatabaseReference mFirebaseDatabaseReference, mFirebaseDatabaseReference2;
+    private DatabaseReference mFirebaseDatabaseReference;
     private EditText mToDoTitleTextView, mToDoInfoTextView;
     private FirebaseUser mFirebaseUser;
     private String uid;
-    private Button mDateTimePickerButton;
     private Spinner mCategorySpinner;
     private Calendar myCalendar;
     private DatePickerDialog.OnDateSetListener mDateListener;
@@ -47,13 +46,13 @@ public class AddToDo extends AppCompatActivity {
         myCalendar = Calendar.getInstance();
         mToDoTitleTextView = (EditText) findViewById(R.id.addToDoTitleTextView);
         mToDoInfoTextView = (EditText) findViewById(R.id.addToDoInfoTextView);
-        mDateTimePickerButton = (Button) findViewById(R.id.dateTimePickerButton);
         mCategorySpinner = (Spinner) findViewById(R.id.categorySpinner);
+
+        mToDoInfoTextView.setMovementMethod(new ScrollingMovementMethod());
 
         String[] categorys = {"Kişisel", "Spor", "Sağlık", "Yazılım", "Diğer"};
         final ArrayAdapter<String> spinnerAdapter = new ArrayAdapter<String>(getApplicationContext(), R.layout.support_simple_spinner_dropdown_item, categorys);
         mCategorySpinner.setAdapter(spinnerAdapter);
-
 
         mDateListener = new DatePickerDialog.OnDateSetListener() {
             @Override

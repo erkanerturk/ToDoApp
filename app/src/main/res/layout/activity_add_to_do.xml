@@ -4,44 +4,77 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/backgroundcolor"
     tools:context="com.erkanerturk.todoapp.AddToDo">
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="460dp"
+        android:gravity="center"
         android:orientation="vertical">
 
         <EditText
             android:id="@+id/addToDoTitleTextView"
-            android:layout_width="match_parent"
+            android:layout_width="400dp"
             android:layout_height="wrap_content"
             android:hint="@string/text" />
 
         <EditText
             android:id="@+id/addToDoInfoTextView"
-            android:layout_width="match_parent"
-            android:layout_height="65dp"
+            android:layout_width="400dp"
+            android:layout_height="100dp"
+            android:layout_gravity="center"
+            android:layout_marginTop="30dp"
             android:ems="10"
-            android:inputType="textMultiLine" />
+            android:hint="@string/info"
+            android:inputType="textMultiLine"
+            android:maxLines="4"
+            android:scrollbars="vertical" />
 
-        <Spinner
-            android:id="@+id/categorySpinner"
+        <android.support.v7.widget.CardView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
-
-        <Button
-            android:id="@+id/dateTimePickerButton"
-            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:onClick="showDateTimePickerDialog"
-            android:text="@string/pick_date" />
+            android:layout_gravity="center"
+            android:layout_margin="25dp">
 
-        <Button
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:orientation="horizontal">
+
+                <Spinner
+                    android:id="@+id/categorySpinner"
+                    android:layout_width="150dp"
+                    android:layout_height="35dp"
+                    android:layout_marginLeft="10dp" />
+
+                <Button
+                    android:id="@+id/dateTimePickerButton"
+                    android:layout_width="150dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="30dp"
+                    android:background="@color/backgroundcolor"
+                    android:onClick="showDateTimePickerDialog"
+                    android:text="@string/pick_date" />
+            </LinearLayout>
+
+        </android.support.v7.widget.CardView>
+
+
+        <com.spark.submitbutton.SubmitButton
             android:id="@+id/addToDoButton"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginTop="-20dp"
             android:onClick="addButtonClicked"
-            android:text="@string/add" />
+            android:text="@string/add"
+            android:textColor="@color/gray"
+            app:sub_btn_background="@color/white"
+            app:sub_btn_duration="3000"
+            app:sub_btn_line_color="@color/green"
+            app:sub_btn_ripple_color="@color/green"
+            app:sub_btn_tick_color="@color/white" />
 
 
     </LinearLayout>

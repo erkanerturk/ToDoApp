@@ -55,5 +55,6 @@ public class DashboardActivity extends AppCompatActivity implements View.OnClick
         }
         startActivity(intent);
         finish();
+        overridePendingTransition(R.anim.anim_in, R.anim.anim_out);
     }
 }
