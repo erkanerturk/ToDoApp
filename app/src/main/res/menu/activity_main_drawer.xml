@@ -29,9 +29,6 @@
     <item android:title="Kullanıcı İşlemleri">
         <menu>
             <item
-                android:id="@+id/nav_info"
-                android:title="Kullanıcı Bilgilerini Değiştir" />
-            <item
                 android:id="@+id/nav_signout"
                 android:title="Çıkış" />
         </menu>

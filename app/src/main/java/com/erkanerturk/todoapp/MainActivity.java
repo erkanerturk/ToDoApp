@@ -41,9 +41,9 @@ public class MainActivity extends AppCompatActivity {
     private FirebaseUser mFirebaseUser;
     private FirebaseAuth mFirebaseAuth;
     private FirebaseAuth.AuthStateListener authStateListener;
-    private String uid;
-    private String selectedCategoryName;
+    private String uid, selectedCategoryName;
     private TextView mcategoryTextView, mBannerDay;
+    private NavigationView navigationView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,14 +60,35 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Intent addTaskIntent = new Intent(MainActivity.this, AddToDo.class);
                 startActivity(addTaskIntent);
+                overridePendingTransition(R.anim.anim_in, R.anim.anim_out);
             }
         });
 
         mTaskRecyclerView = (RecyclerView) findViewById(R.id.toDoRecyclerView);
         mcategoryTextView = (TextView) findViewById(R.id.categoryTextView);
         mBannerDay = (TextView) findViewById(R.id.bannerDayTextView);
-        mcategoryTextView.setText("Kişisel");
-        selectedCategoryName = mcategoryTextView.getText().toString();
+
+        String category = getIntent().getExtras().getString("category", "Kişisel");
+        switch (category) {
+            case "Kişisel":
+                selectedCategoryName = "Kişisel";
+                break;
+            case "Spor":
+                selectedCategoryName = "Spor";
+                break;
+            case "Sağlık":
+                selectedCategoryName = "Sağlık";
+                break;
+            case "Yazılım":
+                selectedCategoryName = "Yazılım";
+                break;
+            case "Diğer":
+                selectedCategoryName = "Diğer";
+                break;
+            default:
+                break;
+        }
+        mcategoryTextView.setText(selectedCategoryName);
 
         mFirebaseDatabaseReference = FirebaseDatabase.getInstance().getReference();
         mFirebaseAuth = FirebaseAuth.getInstance();
@@ -79,7 +100,6 @@ public class MainActivity extends AppCompatActivity {
             Toast.makeText(getApplicationContext(), "Kullanıcı girişi doğrulanamadı", Toast.LENGTH_LONG).show();
             goLoginActivity();
         }
-
 
         authStateListener = new FirebaseAuth.AuthStateListener() {
             @Override
@@ -93,19 +113,16 @@ public class MainActivity extends AppCompatActivity {
             }
         };
 
-
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 int id = item.getItemId();
 
-                if (id != R.id.nav_info && id != R.id.nav_signout) {
+                if (id != R.id.nav_signout) {
                     mcategoryTextView.setText(item.getTitle());
                     selectedCategoryName = item.getTitle().toString();
                     startFirebaseAdapter();
-
-                } else if (id == R.id.nav_info) {
 
                 } else if (id == R.id.nav_signout) {
                     mFirebaseAuth.signOut();
@@ -166,6 +183,12 @@ public class MainActivity extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
 
+        View hView = navigationView.getHeaderView(0);
+        TextView mNavigationUserName = (TextView) hView.findViewById(R.id.nameTextView);
+        TextView mNavigationUserEmail = (TextView) hView.findViewById(R.id.emailTextView);
+        mNavigationUserName.setText(mFirebaseUser.getDisplayName().toString());
+        mNavigationUserEmail.setText(mFirebaseUser.getEmail().toString());
+
         mFirebaseAuth.addAuthStateListener(authStateListener);
 
         startFirebaseAdapter();
@@ -196,8 +219,9 @@ public class MainActivity extends AppCompatActivity {
 
                         Intent intent = new Intent(MainActivity.this, SingleToDo.class);
                         intent.putExtra("toDoKey", TO_DO_KEY);
-                        intent.putExtra("categoryName",selectedCategoryName);
+                        intent.putExtra("categoryName", selectedCategoryName);
                         startActivity(intent);
+                        overridePendingTransition(R.anim.anim_in, R.anim.anim_out);
                     }
                 });
             }

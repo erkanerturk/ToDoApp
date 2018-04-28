@@ -6,11 +6,22 @@
     android:orientation="vertical">
 
 
+    <EditText
+        android:id="@+id/updateTitleEditText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/title" />
+
+    <EditText
+        android:id="@+id/updateInfoEditText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/info" />
+
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:orientation="horizontal">
-
 
         <Button
             android:id="@+id/saveDialogButton"
@@ -19,9 +30,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center|left"
             android:layout_margin="5dp"
-            android:text="Güncelle"
-
-            />
+            android:text="Güncelle" />
 
         <Button
             android:id="@+id/cancelDialogButton"
@@ -30,9 +39,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center|right"
             android:layout_margin="5dp"
-            android:text="İptal"
-
-            />
+            android:text="İptal" />
 
     </LinearLayout>
 

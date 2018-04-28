@@ -13,15 +13,20 @@
         android:theme="@style/AppTheme">
         <activity
             android:name=".MainActivity"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoTitle" />
         <activity
             android:name=".AddToDo"
-            android:theme="@style/AppTheme.NoTitle" />
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoTitle"
+            android:windowSoftInputMode="adjustResize" />
         <activity
             android:name=".SingleToDo"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoTitle" />
         <activity
             android:name=".LoginActivity"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoTitle">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -29,6 +34,10 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".DashboardActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoTitle" />
     </application>
 
 </manifest>

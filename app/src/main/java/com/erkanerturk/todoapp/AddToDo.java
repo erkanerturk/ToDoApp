@@ -1,10 +1,13 @@
 package com.erkanerturk.todoapp;
 
+import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
@@ -13,6 +16,8 @@ import android.widget.Spinner;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
@@ -33,10 +38,10 @@ public class AddToDo extends AppCompatActivity {
     private DatePickerDialog.OnDateSetListener mDateListener;
     private TimePickerDialog.OnTimeSetListener mTimeListener;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_add_to_do);
 
         myCalendar = Calendar.getInstance();
@@ -92,18 +97,27 @@ public class AddToDo extends AppCompatActivity {
             SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yy - HH:mm");
             String timestampString = sdf.format(myCalendar.getTime());
 
-            mFirebaseDatabaseReference = FirebaseDatabase.getInstance().getReference().child("users").child(uid).child("category").child(mCategorySpinner.getSelectedItem().toString());
-            DatabaseReference newTask = mFirebaseDatabaseReference.push();
-            newTask.child("title").setValue(title);
-            newTask.child("info").setValue(info);
-            newTask.child("status").setValue(false);
-            newTask.child("timestamp").setValue(timestampString);
-
-
-            Toast.makeText(getApplicationContext(), "Eklendi", Toast.LENGTH_LONG).show();
-
-            mToDoTitleTextView.setText("");
-            mToDoInfoTextView.setText("");
+            if (title.length() > 3 && title.length() <= 18) {
+                mFirebaseDatabaseReference = FirebaseDatabase.getInstance().getReference().child("users").child(uid).child("category").child(mCategorySpinner.getSelectedItem().toString());
+                mFirebaseDatabaseReference.push().setValue(new ToDo(title, info, false, timestampString)).addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        mToDoTitleTextView.setText("");
+                        mToDoInfoTextView.setText("");
+                        Toast.makeText(getApplicationContext(), "Eklendi", Toast.LENGTH_SHORT).show();
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Toast.makeText(getApplicationContext(), "Ekleme Başarısız", Toast.LENGTH_SHORT).show();
+                    }
+                });
+            } else {
+                AlertDialog.Builder builder = new AlertDialog.Builder(this);
+                builder.setTitle("Uyarı");
+                builder.setMessage("Başlık uzunluğu 3-18 karakter arasında olmalı ");
+                builder.create().show();
+            }
         } else {
             Toast.makeText(getApplicationContext(), "Kullanıcı girişi doğrulanamadı", Toast.LENGTH_LONG).show();
         }
