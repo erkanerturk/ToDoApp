@@ -1,6 +1,8 @@
 package com.erkanerturk.todoapp;
 
 import android.content.Intent;
+import android.graphics.Paint;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
@@ -161,6 +163,11 @@ public class MainActivity extends AppCompatActivity {
                 //mToDoStatus.setVisibility(View.INVISIBLE);
                 mToDoStatus.setImageResource(R.drawable.ic_no_checked);
             }
+
+            if (toDo.getTimeMillis().getTime() < System.currentTimeMillis()) {
+                mToDoTitle.setTypeface(null, Typeface.BOLD_ITALIC);
+                mToDoTitle.setPaintFlags(mToDoTitle.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
+            }
         }
     }
 
@@ -206,7 +213,7 @@ public class MainActivity extends AppCompatActivity {
                 ToDo.class,
                 R.layout.to_do_row,
                 ToDoViewHolder.class,
-                mFirebaseDatabaseReference.child("users").child(uid).child("category").child(selectedCategoryName).orderByChild("timestamp")
+                mFirebaseDatabaseReference.child("users").child(uid).child("category").child(selectedCategoryName).orderByChild("timeMillis")
         ) {
             @Override
             protected void populateViewHolder(final ToDoViewHolder viewHolder, final ToDo model, final int position) {

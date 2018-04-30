@@ -2,6 +2,8 @@ package com.erkanerturk.todoapp;
 
 import com.google.firebase.database.IgnoreExtraProperties;
 
+import java.util.Date;
+
 /**
  * Created by erkanerturk on 21.04.2018.
  */
@@ -13,16 +15,18 @@ public class ToDo {
     private String info;
     private boolean status;
     private String timestamp;
+    private Date timeMillis;
 
     public ToDo() {
 
     }
 
-    public ToDo(String title, String info, boolean status, String timestamp) {
+    public ToDo(String title, String info, boolean status, String timestamp, Date timeMillis) {
         this.title = title;
         this.info = info;
         this.status = status;
         this.timestamp = timestamp;
+        this.timeMillis = timeMillis;
     }
 
     public String getTitle() {
@@ -55,5 +59,13 @@ public class ToDo {
 
     public void setTimestamp(String timestamp) {
         this.timestamp = timestamp;
+    }
+
+    public Date getTimeMillis() {
+        return timeMillis;
+    }
+
+    public void setTimeMillis(Date timeMillis) {
+        this.timeMillis = timeMillis;
     }
 }

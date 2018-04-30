@@ -25,6 +25,7 @@ import com.google.firebase.database.FirebaseDatabase;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 
 public class AddToDo extends AppCompatActivity {
 
@@ -94,11 +95,12 @@ public class AddToDo extends AppCompatActivity {
             String info = mToDoInfoTextView.getText().toString().trim();
 
             SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yy - HH:mm");
+            Date timeMillis = myCalendar.getTime();
             String timestampString = sdf.format(myCalendar.getTime());
 
             if (title.length() > 3 && title.length() <= 18) {
                 mFirebaseDatabaseReference = FirebaseDatabase.getInstance().getReference().child("users").child(uid).child("category").child(mCategorySpinner.getSelectedItem().toString());
-                mFirebaseDatabaseReference.push().setValue(new ToDo(title, info, false, timestampString)).addOnSuccessListener(new OnSuccessListener<Void>() {
+                mFirebaseDatabaseReference.push().setValue(new ToDo(title, info, false, timestampString, timeMillis)).addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void aVoid) {
                         mToDoTitleTextView.setText("");
