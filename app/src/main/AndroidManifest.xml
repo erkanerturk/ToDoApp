@@ -38,6 +38,7 @@
             android:name=".DashboardActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoTitle" />
+
     </application>
 
 </manifest>
