@@ -213,7 +213,7 @@ public class MainActivity extends AppCompatActivity {
                 ToDo.class,
                 R.layout.to_do_row,
                 ToDoViewHolder.class,
-                mFirebaseDatabaseReference.child("users").child(uid).child("category").child(selectedCategoryName).orderByChild("timeMillis")
+                mFirebaseDatabaseReference.child("users").child(uid).child("category").child(selectedCategoryName).orderByChild("timeMillis/time")
         ) {
             @Override
             protected void populateViewHolder(final ToDoViewHolder viewHolder, final ToDo model, final int position) {
