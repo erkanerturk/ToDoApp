@@ -63,8 +63,10 @@ public class SingleToDo extends AppCompatActivity {
             goLoginActivity();
         }
 
+        // Firebase de veri yolu
         mFirebaseDatabaseReference = FirebaseDatabase.getInstance().getReference().child("users").child(uid).child("category").child(selectedCategoryName).child(toDoKey);
 
+        // Firebase'den veri okunur ve TextView lere yazılır
         mFirebaseDatabaseReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -166,10 +168,12 @@ public class SingleToDo extends AppCompatActivity {
     }
 
     public void updateFirebase(String title, String info) {
+        // Güncelleme işlemi yapılacak veri Map olarak tutulur.
         HashMap<String, Object> newData = new HashMap<String, Object>();
         newData.put("title", title);
         newData.put("info", info);
 
+        // Güncelleme işlemi
         mFirebaseDatabaseReference.updateChildren(newData)
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override

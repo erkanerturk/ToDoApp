@@ -93,9 +93,12 @@ public class MainActivity extends AppCompatActivity {
         mcategoryTextView.setText(selectedCategoryName);
 
         mFirebaseDatabaseReference = FirebaseDatabase.getInstance().getReference();
+        // Firebase Authentication den nesne alınır
         mFirebaseAuth = FirebaseAuth.getInstance();
+        // Mevcut kullanıcı alınır
         mFirebaseUser = FirebaseAuth.getInstance().getCurrentUser();
 
+        // Kullanıcı null ise giriş activity'e yönlendirilir
         if (mFirebaseUser != null) {
             uid = mFirebaseUser.getUid();
         } else {
@@ -103,6 +106,7 @@ public class MainActivity extends AppCompatActivity {
             goLoginActivity();
         }
 
+        // Firebase Authentication da değişiklik olduğunda tetiklenir
         authStateListener = new FirebaseAuth.AuthStateListener() {
             @Override
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
@@ -213,6 +217,7 @@ public class MainActivity extends AppCompatActivity {
                 ToDo.class,
                 R.layout.to_do_row,
                 ToDoViewHolder.class,
+                // Firebase'den yapacağı sorgu
                 mFirebaseDatabaseReference.child("users").child(uid).child("category").child(selectedCategoryName).orderByChild("timeMillis/time")
         ) {
             @Override
@@ -220,15 +225,19 @@ public class MainActivity extends AppCompatActivity {
                 final String TO_DO_KEY = getRef(position).getKey();
                 viewHolder.bindToDo(model);
 
+                // To Do ya tıkladığında çalışacak fonksiyon
                 viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
 
                         if (!TO_DO_KEY.equals("") && TO_DO_KEY != null) {
+                            // Ayrıntılı gösterim activity veri aktarmak için intent oluştulurdu
                             Intent intent = new Intent(MainActivity.this, SingleToDo.class);
                             intent.putExtra("toDoKey", TO_DO_KEY);
                             intent.putExtra("categoryName", selectedCategoryName);
+                            // Diğer activity e geçiş yapıldı
                             startActivity(intent);
+                            // Activity geçiş animasyonu
                             overridePendingTransition(R.anim.anim_in, R.anim.anim_out);
                         }
                     }
@@ -237,10 +246,12 @@ public class MainActivity extends AppCompatActivity {
         };
         mTaskRecyclerView.setHasFixedSize(true);
         mTaskRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+        // Firebase'den gelen verileri RecyclerView'e ekledi.
         mTaskRecyclerView.setAdapter(mFirebaseAdapter);
     }
 
     public void startItemTouchHelper() {
+        // Satır sağ veya sola kaydırılırsa
         new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.RIGHT | ItemTouchHelper.LEFT) {
             @Override
             public boolean onMove(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, RecyclerView.ViewHolder target) {
@@ -249,8 +260,10 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction) {
+                // Satırın pozisyonunu alır
                 final int position = viewHolder.getAdapterPosition();
 
+                // Sağ kaydırma işleminde satırı siler
                 if (direction == ItemTouchHelper.RIGHT) {
                     mFirebaseAdapter.getRef(position).removeValue().addOnSuccessListener(new OnSuccessListener<Void>() {
                         @Override
@@ -264,6 +277,7 @@ public class MainActivity extends AppCompatActivity {
                         }
                     });
                 } else {
+                    // Sola kaydırma işleminde to do durumunu değiştilir
                     mFirebaseAdapter.getRef(position).addListenerForSingleValueEvent(new ValueEventListener() {
                         @Override
                         public void onDataChange(DataSnapshot dataSnapshot) {
@@ -278,6 +292,7 @@ public class MainActivity extends AppCompatActivity {
                     });
                 }
 
+                // Değişiklikleri Recycler View e uygular
                 mFirebaseAdapter.notifyDataSetChanged();
             }
         }).attachToRecyclerView(mTaskRecyclerView);

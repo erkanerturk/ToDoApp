@@ -3,6 +3,7 @@ package com.erkanerturk.todoapp;
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
@@ -91,21 +92,31 @@ public class AddToDo extends AppCompatActivity {
     public void addButtonClicked(View view) {
         if (mFirebaseUser != null) {
 
+            // TextView ler den veriler değişkene atandı
             String title = mToDoTitleTextView.getText().toString().trim();
             String info = mToDoInfoTextView.getText().toString().trim();
 
             SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yy - HH:mm");
             Date timeMillis = myCalendar.getTime();
+            // Seçilen tarih long tipinde millisaniye olarak alındı
             String timestampString = sdf.format(myCalendar.getTime());
 
             if (title.length() > 3 && title.length() <= 18) {
+                // Firebase de verinin nereye ekleneceği belirtirdi
                 mFirebaseDatabaseReference = FirebaseDatabase.getInstance().getReference().child("users").child(uid).child("category").child(mCategorySpinner.getSelectedItem().toString());
+                // Push işlemi
                 mFirebaseDatabaseReference.push().setValue(new ToDo(title, info, false, timestampString, timeMillis)).addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void aVoid) {
                         mToDoTitleTextView.setText("");
                         mToDoInfoTextView.setText("");
                         Toast.makeText(getApplicationContext(), "Eklendi", Toast.LENGTH_SHORT).show();
+
+                        Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                        intent.putExtra("category", mCategorySpinner.getSelectedItem().toString());
+                        startActivity(intent);
+                        finish();
+
                     }
                 }).addOnFailureListener(new OnFailureListener() {
                     @Override
